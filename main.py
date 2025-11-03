@@ -43,7 +43,7 @@ def kiem_tra():
 
 # Tính chi phí sinh hoạt
 def tinh_chiphi():
-    try:
+    
         # Lấy dữ liệu từ giao diện
         dien_cu = chuyen_doi(form.lneDienCu.text()) 
         dien_moi = chuyen_doi(form.lneDienMoi.text())
@@ -72,9 +72,7 @@ def tinh_chiphi():
         form.lneGiaDien.setText(f"{gia_dien:,.0f} ₫")
         form.lneGiaNuoc.setText(f"{gia_nuoc:,.0f} ₫")
 
-    except ValueError:
-        form.lneGiaDien.setText("Vui lòng nhập đúng số liệu")
-        form.lneGiaNuoc.setText("Vui lòng nhập đúng số liệu")
+
 
 # Dọn giao diện
 def clear_ui():
@@ -117,5 +115,6 @@ if __name__ == "__main__":
     window.show()
 
     app.exec()
+
 
 
