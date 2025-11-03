@@ -230,20 +230,6 @@ class Ui_SinhHoatThang(object):
         self.btnTinh.setFont(font)
         self.btnTinh.setObjectName("btnTinh")
         self.bottomLayout.addWidget(self.btnTinh)
-        self.btnClear = QtWidgets.QPushButton(parent=self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.btnClear.sizePolicy().hasHeightForWidth())
-        self.btnClear.setSizePolicy(sizePolicy)
-        self.btnClear.setMinimumSize(QtCore.QSize(100, 50))
-        font = QtGui.QFont()
-        font.setPointSize(1)
-        font.setBold(False)
-        font.setWeight(50)
-        self.btnClear.setFont(font)
-        self.btnClear.setObjectName("btnClear")
-        self.bottomLayout.addWidget(self.btnClear)
         spacerItem1 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.bottomLayout.addItem(spacerItem1)
         self.lblTongPhi = QtWidgets.QLabel(parent=self.centralwidget)
@@ -260,7 +246,7 @@ class Ui_SinhHoatThang(object):
 "    color: #003366;\n"
 "    font-size: 15px;  \n"
 "    font-weight: bold;\n"
-"    min-width: 180px;\n"
+"    min-width: 300px;\n"
 "}")
         self.lblTongPhi.setObjectName("lblTongPhi")
         self.bottomLayout.addWidget(self.lblTongPhi)
@@ -295,6 +281,6 @@ class Ui_SinhHoatThang(object):
         self.lblRac.setText(_translate("SinhHoatThang", "Phí rác theo khu vực"))
         self.lblRacPhi.setText(_translate("SinhHoatThang", "Phí rác: 0 ₫"))
         self.btnTinh.setText(_translate("SinhHoatThang", "Tính"))
-        self.btnClear.setText(_translate("SinhHoatThang", "Xóa"))
         self.lblTongPhi.setText(_translate("SinhHoatThang", "Tổng phí: 0 ₫"))
         self.label_2.setText(_translate("SinhHoatThang", "Dữ liệu được cập nhật đến 2025"))
+
