@@ -24,11 +24,12 @@ def chuyen_doi(text):
     Nếu văn bản bị trống hoặc không phải là số, nó sẽ trả về 0.0.
     """
     try:
-        # Thay thế dấu phẩy (nếu người dùng nhập) và chuyển sang float
         return float(text.replace(',', '.'))
     except (ValueError, TypeError):
-        # Nếu lỗi (ví dụ: chuỗi rỗng ""), trả về 0
+        if text != "":
+            hien_canh_bao("Cảnh báo", "Chỉ được nhập số.")
         return 0.0
+
 def kiem_tra():
         dien_cu = chuyen_doi(form.lneDienCu.text()) 
         dien_moi = chuyen_doi(form.lneDienMoi.text())
@@ -118,4 +119,5 @@ if __name__ == "__main__":
     form.setupUi(window)
     ket_noi()
     window.show()
+
     app.exec()
