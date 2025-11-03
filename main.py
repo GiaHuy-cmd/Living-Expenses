@@ -3,7 +3,6 @@ from sinhhoatthang_ui import *
 from xuly import *
 import sys
 # Định nghĩa các khu vực và phí rác tương ứng
-cac_khu_vuc = ["Chọn khu vực", "Thành phố Thủ Đức và các quận", "Hóc Môn - Nhà Bè - Cần Giờ", "Bình Chánh - Củ Chi"]
 phi_rac = {
     "Chọn khu vực": 0,
     "Thành phố Thủ Đức và các quận": 61000,
@@ -26,7 +25,7 @@ def chuyen_doi(text):
     """
     try:
         # Thay thế dấu phẩy (nếu người dùng nhập) và chuyển sang float
-        return float(text.replace(',', ''))
+        return float(text.replace(',', '.'))
     except (ValueError, TypeError):
         # Nếu lỗi (ví dụ: chuỗi rỗng ""), trả về 0
         return 0.0
@@ -93,9 +92,9 @@ def clear_ui():
         form.lblTongPhi.setText("Tổng phí sinh hoạt: 0 ₫")
 
 # Kết nối các nút 
-def setup_connections():
+def ket_noi():
         # 1. Thêm các khu vực vào combobox
-        form.cmbKhuVuc.addItems(cac_khu_vuc)
+        form.cmbKhuVuc.addItems(phi_rac.keys())
 
         # 2. Kết nối nút "Clear"
         form.btnClear.clicked.connect(clear_ui)
@@ -117,6 +116,6 @@ if __name__ == "__main__":
     window = QtWidgets.QMainWindow()
     form = Ui_SinhHoatThang()
     form.setupUi(window)
-    setup_connections()
+    ket_noi()
     window.show()
     app.exec()

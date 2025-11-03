@@ -297,4 +297,4 @@ class Ui_SinhHoatThang(object):
         self.btnTinh.setText(_translate("SinhHoatThang", "Tính"))
         self.btnClear.setText(_translate("SinhHoatThang", "Xóa"))
         self.lblTongPhi.setText(_translate("SinhHoatThang", "Tổng phí: 0 ₫"))
-        self.label_2.setText(_translate("SinhHoatThang", "Dữ liệu được cập nhật đến ..."))
+        self.label_2.setText(_translate("SinhHoatThang", "Dữ liệu được cập nhật đến 2025"))
