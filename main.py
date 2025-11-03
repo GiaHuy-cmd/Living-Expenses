@@ -3,6 +3,7 @@ from sinhhoatthang_ui import *
 from xuly import *
 import sys
 # Định nghĩa các khu vực và phí rác tương ứng
+
 phi_rac = {
     "Chọn khu vực": 0,
     "Thành phố Thủ Đức và các quận": 61000,
@@ -19,6 +20,10 @@ def hien_canh_bao(title, message):
 
 # Chuyển văn bản thành số
 def chuyen_doi(text):
+    """
+    Chuyển văn bản (text) sang số (float).
+    Nếu văn bản bị trống hoặc không phải là số, nó sẽ trả về 0.0.
+    """
     try:
         return float(text.replace(',', '.'))
     except (ValueError, TypeError):
@@ -42,79 +47,65 @@ def kiem_tra():
                          "Chỉ số nước mới nhỏ hơn chỉ số cũ. Vui lòng kiểm tra lại.")
 
 # Tính chi phí sinh hoạt
-def tinh_chiphi():
-    
-        # Lấy dữ liệu từ giao diện
-        dien_cu = chuyen_doi(form.lneDienCu.text()) 
-        dien_moi = chuyen_doi(form.lneDienMoi.text())
-        nuoc_cu = chuyen_doi(form.lneNuocCu.text())
-        nuoc_moi = chuyen_doi(form.lneNuocMoi.text())
+def tinh_dien():
+    dien_cu = chuyen_doi(form.lneDienCu.text()) 
+    dien_moi = chuyen_doi(form.lneDienMoi.text())
+    kdien = dien_moi - dien_cu
+    if kdien < 0: kdien = 0
+    gia_dien = tien_dien(kdien)
+    form.lneGiaDien.setText(f"{gia_dien * 1.1:,.0f} ₫")
 
-        # Tính tiền điện và nước
-        kdien = dien_moi - dien_cu
-        if kdien < 0: kdien = 0
-        knuoc = nuoc_moi - nuoc_cu
-        if knuoc < 0: knuoc = 0
+def tinh_nuoc():
+    nuoc_cu = chuyen_doi(form.lneNuocCu.text()) 
+    nuoc_moi = chuyen_doi(form.lneNuocMoi.text())
+    knuoc = nuoc_moi - nuoc_cu 
+    if knuoc < 0: knuoc = 0
+    gia_nuoc = tien_nuoc(knuoc)
+    form.lneGiaNuoc.setText(f"{gia_nuoc * 1.1:,.0f} ₫")
 
-        gia_dien = tien_dien(kdien) * 1.1
-        gia_nuoc = tien_nuoc(knuoc) * 1.1
+def tinh_rac():
+    khu_vuc_text = form.cmbKhuVuc.currentText()
+    phi = phi_rac.get(khu_vuc_text, 0)
+    form.lblRacPhi.setText(f"Phí rác: {phi:,} ₫")
 
-        # Tính tiền rác
-        khu_vuc_text = form.cmbKhuVuc.currentText()
-        phi = phi_rac.get(khu_vuc_text, 0)
-        form.lblRacPhi.setText(f"Phí rác: {phi:,} ₫")
-
-        # Cộng tổng chi phí
-        tong_phi = gia_dien + gia_nuoc + phi
-        form.lblTongPhi.setText(f"Tổng phí sinh hoạt: {tong_phi:,.0f} ₫ (Đã tính thuế VAT 10%)")
-
-        # Hiển thị kết quả
-        form.lneGiaDien.setText(f"{gia_dien:,.0f} ₫")
-        form.lneGiaNuoc.setText(f"{gia_nuoc:,.0f} ₫")
-
-
-
-# Dọn giao diện
-def clear_ui():
-        form.lneDienCu.clear()
-        form.lneDienMoi.clear()
-        form.lneNuocCu.clear()
-        form.lneNuocMoi.clear()
-        form.cmbKhuVuc.setCurrentIndex(0)
-        form.lneGiaDien.clear()
-        form.lneGiaNuoc.clear()
-        form.lblRacPhi.setText("Phí rác: 0 ₫")
-        form.lblTongPhi.setText("Tổng phí sinh hoạt: 0 ₫")
+def tinh_tong_phi():
+    # Lấy giá điện
+    gia_dien = chuyen_doi(form.lneGiaDien.text().replace('₫', '').replace(',', ''))
+    # Lấy giá nước
+    gia_nuoc = chuyen_doi(form.lneGiaNuoc.text().replace('₫', '').replace(',', ''))
+    # Lấy phí rác
+    phi = 0
+    text_rac = form.lblRacPhi.text().replace('Phí rác:', '').replace('₫', '').replace(',', '').strip()
+    if text_rac:
+        phi = chuyen_doi(text_rac)
+    tong = gia_dien + gia_nuoc + phi
+    form.lblTongPhi.setText(f"Tổng phí sinh hoạt: {tong:,.0f} ₫ (Đã tính thuế 10%)")
 
 # Kết nối các nút 
-def ket_noi():
-        # 1. Thêm các khu vực vào combobox
-        form.cmbKhuVuc.addItems(phi_rac.keys())
+def setup_connections():
+    form.cmbKhuVuc.addItems(phi_rac.keys())
 
-        # 2. Kết nối nút "Clear"
-        form.btnClear.clicked.connect(clear_ui)
+    # Điện
+    form.lneDienCu.textChanged.connect(tinh_dien)
+    form.lneDienMoi.textChanged.connect(tinh_dien)
+    form.lneDienMoi.editingFinished.connect(kiem_tra)
 
-        # 3. Kết nối các ô nhập liệu để tự động tính chi phí khi có thay đổi
-        form.lneDienCu.textChanged.connect(tinh_chiphi)
-        form.lneDienMoi.textChanged.connect(tinh_chiphi)
-        form.lneNuocCu.textChanged.connect(tinh_chiphi)
-        form.lneNuocMoi.textChanged.connect(tinh_chiphi)
-        form.lneDienMoi.editingFinished.connect(kiem_tra)
-        form.lneNuocMoi.editingFinished.connect(kiem_tra)
-        form.cmbKhuVuc.currentIndexChanged.connect(tinh_chiphi)
+    # Nước
+    form.lneNuocCu.textChanged.connect(tinh_nuoc)
+    form.lneNuocMoi.textChanged.connect(tinh_nuoc)
+    form.lneNuocMoi.editingFinished.connect(kiem_tra)
 
-        # 4. Kết nối nút "Tính"
-        form.btnTinh.clicked.connect(tinh_chiphi)
-        
+    # Rác
+    form.cmbKhuVuc.currentIndexChanged.connect(tinh_rac)
+
+    # Chỉ khi bấm "Tính" mới cộng tổng
+    form.btnTinh.clicked.connect(tinh_tong_phi)
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = QtWidgets.QMainWindow()
     form = Ui_SinhHoatThang()
     form.setupUi(window)
-    ket_noi()
+    setup_connections()
     window.show()
-
     app.exec()
-
-
-
