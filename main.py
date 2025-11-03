@@ -19,10 +19,6 @@ def hien_canh_bao(title, message):
 
 # Chuyển văn bản thành số
 def chuyen_doi(text):
-    """
-    Chuyển văn bản (text) sang số (float).
-    Nếu văn bản bị trống hoặc không phải là số, nó sẽ trả về 0.0.
-    """
     try:
         return float(text.replace(',', '.'))
     except (ValueError, TypeError):
@@ -121,4 +117,5 @@ if __name__ == "__main__":
     window.show()
 
     app.exec()
+
 
