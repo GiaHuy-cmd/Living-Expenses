@@ -60,8 +60,8 @@ def tinh_chiphi():
         knuoc = nuoc_moi - nuoc_cu
         if knuoc < 0: knuoc = 0
 
-        gia_dien = tien_dien(kdien)
-        gia_nuoc = tien_nuoc(knuoc)
+        gia_dien = tien_dien(kdien) * 1.1
+        gia_nuoc = tien_nuoc(knuoc) * 1.1
 
         # Tính tiền rác
         khu_vuc_text = form.cmbKhuVuc.currentText()
@@ -70,7 +70,7 @@ def tinh_chiphi():
 
         # Cộng tổng chi phí
         tong_phi = gia_dien + gia_nuoc + phi
-        form.lblTongPhi.setText(f"Tổng phí sinh hoạt: {tong_phi:,.0f} ₫")
+        form.lblTongPhi.setText(f"Tổng phí sinh hoạt: {tong_phi:,.0f} ₫ (Đã tính thuế VAT 10%)")
 
         # Hiển thị kết quả
         form.lneGiaDien.setText(f"{gia_dien:,.0f} ₫")
@@ -121,3 +121,4 @@ if __name__ == "__main__":
     window.show()
 
     app.exec()
+
